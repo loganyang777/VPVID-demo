@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPVID: Variance-Preserving Velocity-Guided Interpolant Diffusion for Speech Enhancement and Dereverberation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>VPVID: Variance-Preserving Velocity-Guided Interpolant Diffusion for Speech Enhancement and Dereverberation</h1>
+        <p class="authors">G. Yang, Y. J. Wei, B. Niu, and Y. Q. Wang</p>
+        <p class="affiliation">School of Computer Science and Engineering, Northeastern University, China</p>
+        <div class="links">
+            <a href="https://github.com/loganyang777/VPVID.git" target="_blank">GitHub Repository</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="abstract">
+            <h2>Abstract</h2>
+            <p>Diffusion-based generative models for speech enhancement often face challenges in balancing performance and inference efficiency. To address this, we propose a model of Variance-Preserving Velocity-guided Interpolant Diffusion (VPVID), a novel framework that achieves competitive enhancement performance while maintaining high computational efficiency. Our approach incorporates a scalable interpolant framework that reconstructs the reverse diffusion process using velocity terms and state variables. Unlike traditional score-matching objectives, we employ a velocity-based loss function that directly estimates the instantaneous rate of change, providing more stable training and efficient data distribution learning. We further combine stochastic diffusion sampling with probability flow ordinary differential equations, augmented by an adaptive corrector mechanism, creating a flexible sampling strategy that balances quality and efficiency. Extensive experiments on VoiceBank-DEMAND and WSJ0-CHiME3 datasets demonstrate that VPVID significantly outperforms existing baselines across multiple metrics, particularly excelling in noise separation with SI-SIR improvement up to 4.7 dB. Furthermore, VPVID achieves up to 7× faster inference than existing diffusion-based methods while maintaining excellent speech enhancement and dereverberation performance.</p>
+        </section>
+
+        <section class="audio-demos">
+            <h2>Audio Demonstrations</h2>
+            <p class="demo-description">Below are audio samples demonstrating the performance of different methods. Each sample includes the original audio player and its corresponding spectrogram visualization.</p>
+            
+            <div class="sample-group">
+                <h3>Sample 1: 051o0211</h3>
+                <div class="methods-grid">
+                    <div class="method-card">
+                        <h4>Clean (Reference)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/clean/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="Clean spectrogram" />
+                        </div>
+                    </div>
+                    
+                    <div class="method-card">
+                        <h4>Noisy (Input)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/noisy/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="Noisy spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>SGMSEP</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/sgmsep/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="SGMSEP spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>VPIDM</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpidm/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPIDM spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>FLOWSE</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/flowse/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="FLOWSE spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_sde/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID-PC (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_sdec/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID-PC spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID-ODE (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_ode/051o0211.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID-ODE spectrogram" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sample-group">
+                <h3>Sample 2: 22ga010f</h3>
+                <div class="methods-grid">
+                    <div class="method-card">
+                        <h4>Clean (Reference)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/clean/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="Clean spectrogram" />
+                        </div>
+                    </div>
+                    
+                    <div class="method-card">
+                        <h4>Noisy (Input)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/noisy/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="Noisy spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>SGMSEP</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/sgmsep/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="SGMSEP spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>VPIDM</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpidm/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>FLOWSE</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/flowse/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="FLOWSE spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_sde/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID-PC (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_sdec/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID-PC spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID-ODE (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_ode/22ga010f.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID-ODE spectrogram" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sample-group">
+                <h3>Sample 3: 423o0304</h3>
+                <div class="methods-grid">
+                    <div class="method-card">
+                        <h4>Clean (Reference)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/clean/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="Clean spectrogram" />
+                        </div>
+                    </div>
+                    
+                    <div class="method-card">
+                        <h4>Noisy (Input)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/noisy/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="Noisy spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>SGMSEP</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/sgmsep/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="SGMSEP spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>VPIDM</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpidm/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPIDM spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card baseline">
+                        <h4>FLOWSE</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/flowse/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="FLOWSE spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_sde/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID-PC (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_sdec/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID-PC spectrogram" />
+                        </div>
+                    </div>
+
+                    <div class="method-card ours">
+                        <h4>VPVID-ODE (Ours)</h4>
+                        <audio controls>
+                            <source src="input_wsj0c3/vpvid_ode/423o0304.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <div class="spectrogram">
+                            <img src="https://via.placeholder.com/360x200/f0f0f0/666?text=Spectrogram+Placeholder" alt="VPVID-ODE spectrogram" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 School of Computer Science and Engineering, Northeastern University</p>
+        <p><a href="https://github.com/loganyang777/VPVID.git" target="_blank">View on GitHub</a></p>
+    </footer>
+</body>
+</html>
