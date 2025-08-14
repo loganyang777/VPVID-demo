@@ -66,8 +66,8 @@ def main():
     """Main function to generate all spectrograms."""
     
     # Define input and output directories
-    input_dir = Path("input_wsj0c3")
-    output_dir = Path("spectrograms")
+    input_dir = Path("input_wsj0R")
+    output_dir = Path("spectrograms_wsj0R")
     
     # Check if input directory exists
     if not input_dir.exists():
