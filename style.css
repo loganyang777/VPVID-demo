@@ -93,16 +93,31 @@ main {
     color: #444;
 }
 
-/* Audio Demos Section */
-.audio-demos h2 {
+/* Experiment Sections */
+.experiment-section {
+    margin-bottom: 4rem;
+}
+
+.experiment-title {
     font-size: 1.8rem;
     color: #2c3e50;
     margin-bottom: 1rem;
     font-weight: 400;
     text-align: center;
+    position: relative;
 }
 
-.demo-description {
+.experiment-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #2c3e50);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+.experiment-description {
     text-align: center;
     font-size: 1.05rem;
     color: #666;
@@ -110,6 +125,7 @@ main {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    font-style: italic;
 }
 
 /* Sample Groups */

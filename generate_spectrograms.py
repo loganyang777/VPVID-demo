@@ -78,7 +78,8 @@ def main():
     output_dir.mkdir(exist_ok=True)
     
     # Method directories to process
-    methods = ['clean', 'noisy', 'sgmsep', 'vpidm', 'flowse', 'vpvid_sde', 'vpvid_sdec', 'vpvid_ode']
+    # methods = ['clean', 'noisy', 'sgmsep', 'vpidm', 'flowse', 'vpvid_sde', 'vpvid_sdec', 'vpvid_ode']
+    methods = ['anechoic', 'reverb', 'sgmsep', 'vpidm', 'flowse', 'vpvid_sde', 'vpvid_sdec', 'vpvid_ode']
     
     print("Generating spectrograms...")
     print(f"Output size: 360x200 pixels")
